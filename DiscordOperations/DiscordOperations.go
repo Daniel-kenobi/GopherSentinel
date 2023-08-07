@@ -3,6 +3,7 @@ package DiscordOperations
 import (
 	"GopherSentinel/DiscordObjects"
 	"GopherSentinel/DiscordRequests"
+	"GopherSentinel/Utils"
 	"fmt"
 
 	"github.com/bwmarrin/discordgo"
@@ -24,8 +25,14 @@ func HandleSendedMessages(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
+	if len(m.Content) <= 0 {
+		return
+	}
+
+	invalidMessage := Utils.IsInapropriatedWord(m.Content)
+
 	// Valida se a mensagem está de acordo com o esperado
-	if true == true {
+	if invalidMessage {
 		err := s.ChannelMessageDelete(m.ChannelID, m.Message.ID)
 
 		if err != nil {

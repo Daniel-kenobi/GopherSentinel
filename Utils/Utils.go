@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io"
 	"os"
+	"strings"
 )
 
 type CredentialsFileObject struct {
@@ -42,7 +43,18 @@ func ReadCredentialsFile(completePath string) (CredentialsFileObject, error) {
 	return credentialsFile, nil
 }
 
-func GetPortugueseBadWordList() []string {
+func IsInapropriatedWord(input string) bool {
+	badWords := getPortugueseBadWordList()
+
+	for _, word := range badWords {
+		if strings.Contains(strings.ToLower(input), word) {
+			return true
+		}
+	}
+	return false
+}
+
+func getPortugueseBadWordList() []string {
 	return []string{
 		"acefal",
 		"anal",
