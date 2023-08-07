@@ -39,8 +39,7 @@ func HandleSendedMessages(s *discordgo.Session, m *discordgo.MessageCreate) {
 			fmt.Println(err.Error())
 			panic(err.Error())
 		}
-
-		_, err = s.ChannelMessageSend(m.ChannelID, "Mensagem deletada pois contém palavras inapropriadas")
+		_, err = s.ChannelMessageSend(m.ChannelID, fmt.Sprint("<@", m.Author.ID, ">", " Mensagem deletada pois contém palavras inapropriadas"))
 
 		if err != nil {
 			fmt.Println(err.Error())
