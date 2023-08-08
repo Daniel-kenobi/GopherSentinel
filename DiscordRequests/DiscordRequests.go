@@ -5,8 +5,10 @@ import (
 	"GopherSentinel/DiscordUtils"
 	"GopherSentinel/Utils"
 	"bytes"
+	"encoding/base64"
 	"encoding/json"
 	"io"
+	"log"
 	"net/http"
 )
 
@@ -48,4 +50,25 @@ func SetAppCommands(commands []DiscordObjects.CreateCommand) (string, error) {
 	body, err := io.ReadAll(resp.Body)
 
 	return string(body), nil
+}
+
+func RetrieveBase64FromImage(url string) (string, error) {
+	resp, err := http.Get(url)
+
+	if err != nil {
+		return "", err
+	}
+
+	defer resp.Body.Close()
+
+	bytes, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return toBase64(bytes), nil
+}
+
+func toBase64(b []byte) string {
+	return base64.StdEncoding.EncodeToString(b)
 }

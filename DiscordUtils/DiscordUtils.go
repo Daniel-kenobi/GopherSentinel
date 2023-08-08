@@ -21,10 +21,6 @@ func GetClientAuthorizationHeader(discordToken string) string {
 	return fmt.Sprint("Bearer ", discordToken)
 }
 
-func GetKuteGoUrl(botToken string) string {
-	return fmt.Sprint("https://kutego-api-", botToken, "-ew.a.run.app")
-}
-
 func CreateHTTPHeaders(header http.Header, discordToken string) {
 	header.Add("Authorization", GetBotAuthorizationHeader(discordToken))
 	header.Add("Content-Type", "application/json")
