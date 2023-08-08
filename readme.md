@@ -8,9 +8,11 @@ Para utilizar o mesmo você precisa de um arquivo chamado credentials.json na pa
 
 ```json
 {
-    "BOT_TOKEN": "XXXXXX",
-	"APP_ID": "XXXXXX",
-	"PUBLIC_KEY": "XXXXXX"
+ "BOT_TOKEN": "XXXXXX", // Token bot discord
+ "APP_ID": "XXXXXX", // Bot App id
+ "PUBLIC_KEY": "XXXXXX", // Discord public key
+ "GOOGLE_USER_PROJ": "XXXXXX", // Google ProjectId
+ "GOOGLE_BEARER_TOKEN": "XXXXXX" // Google bearer token (gcloud auth print-access-token)
 }
 ```
 
