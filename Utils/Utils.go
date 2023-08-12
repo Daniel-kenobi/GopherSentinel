@@ -1,62 +1,10 @@
 package Utils
 
 import (
-	"encoding/json"
-	"io"
-	"os"
-	"strings"
+	"encoding/base64"
 )
 
-type CredentialsFileObject struct {
-	Bot_Token           string `json:"BOT_TOKEN"`
-	App_Id              string `json:"APP_ID"`
-	Public_key          string `json:"PUBLIC_KEY"`
-	ChatGPT_Secret_Key  string `json:"CHATGPT_SECRET_KEY"`
-	Google_User_Project string `json:"GOOGLE_USER_PROJ"`
-	Google_bearer_token string `json:"GOOGLE_BEARER_TOKEN"`
-}
-
-func ReadCredentialsFile(completePath string) (CredentialsFileObject, error) {
-
-	if len(completePath) <= 0 {
-		completePath = "Credentials.json"
-	}
-
-	jsonFile, err := os.Open(completePath)
-
-	if err != nil {
-		return CredentialsFileObject{}, err
-	}
-
-	defer jsonFile.Close()
-	byteArray, err := io.ReadAll(jsonFile)
-
-	if err != nil {
-		return CredentialsFileObject{}, err
-	}
-
-	var credentialsFile CredentialsFileObject
-	err = json.Unmarshal(byteArray, &credentialsFile)
-
-	if err != nil {
-		return CredentialsFileObject{}, err
-	}
-
-	return credentialsFile, nil
-}
-
-func IsInapropriatedWord(input string) bool {
-	badWords := getPortugueseBadWordList()
-
-	for _, word := range badWords {
-		if strings.Contains(strings.ToLower(input), word) {
-			return true
-		}
-	}
-	return false
-}
-
-func getPortugueseBadWordList() []string {
+func PortugueseBadWordList() []string {
 	return []string{
 		"acefal",
 		"anal",
@@ -64,6 +12,7 @@ func getPortugueseBadWordList() []string {
 		"ant",
 		"anus",
 		"arombad",
+		"arrombad",
 		"baba-ovo",
 		"babaca",
 		"babaq",
@@ -97,6 +46,7 @@ func getPortugueseBadWordList() []string {
 		"boset",
 		"bosta",
 		"bqt",
+		"boquet",
 		"brioco",
 		"br!oco",
 		"bronha",
@@ -108,18 +58,21 @@ func getPortugueseBadWordList() []string {
 		"buset",
 
 		"cachora",
+		"cachorra",
 		"cadel",
 		"cade!",
 		"cacet",
 		"caga",
-		"cagado",
+		"cagad",
 		"cagona",
 		"canalha",
 		"cana!ha",
 		"caralh",
 		"cara!h",
+		"caraio",
 		"caseta",
 		"casete",
+		"cassete",
 		"caseto",
 		"casetu",
 		"chana",
@@ -531,4 +484,8 @@ func getPortugueseBadWordList() []string {
 		"xupe",
 		"xupo",
 	}
+}
+
+func ByteArrayToBase64(b []byte) string {
+	return base64.StdEncoding.EncodeToString(b)
 }

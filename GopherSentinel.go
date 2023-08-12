@@ -1,9 +1,14 @@
 package main
 
 import (
-	"GopherSentinel/BotOperations"
+	"GopherSentinel/BotOperations/WatchChannel"
 )
 
+func getBotDependencies() *WatchChannel.WatchChannel {
+	return &WatchChannel.WatchChannel{}
+}
+
 func main() {
-	BotOperations.StartBot()
+	op := getBotDependencies()
+	op.StartBot()
 }
