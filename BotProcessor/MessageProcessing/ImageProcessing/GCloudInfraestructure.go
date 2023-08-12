@@ -145,10 +145,10 @@ func checkImageProbability(gVisionResponse GoogleVisionResponse) bool {
 				response.SafeSearchAnnotation.Racy == probabilityItem ||
 				response.SafeSearchAnnotation.Spoof == probabilityItem ||
 				response.SafeSearchAnnotation.Violence == probabilityItem {
-				return true
+				return false
 			}
 		}
 	}
 
-	return false
+	return true
 }
