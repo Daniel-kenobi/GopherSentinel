@@ -1,9 +1,8 @@
 package Channel
 
 import (
-	"GopherSentinel/BotProcessors/Messages"
-	"GopherSentinel/BotProcessors/Messages/ImageProcessing"
-	"GopherSentinel/BotProcessors/Messages/TextProcessing"
+	"GopherSentinel/BotProcessors/Messages/ImageProcessor"
+	"GopherSentinel/BotProcessors/Messages/TextProcessor"
 	"GopherSentinel/Utils"
 	"fmt"
 	"github.com/bwmarrin/discordgo"
@@ -15,15 +14,15 @@ import (
 var session *discordgo.Session
 var message *discordgo.MessageCreate
 
-type ChannelOperations struct{}
+type Operations struct{}
 
-func getRequiredDependencies(s *discordgo.Session, m *discordgo.MessageCreate) (Messages.IImageProcessor, Messages.ITextProcessing) {
+func getRequiredDependencies(s *discordgo.Session, m *discordgo.MessageCreate) (ImageProcessor.IImageProcessor, TextProcessor.ITextProcessor) {
 	session, message = s, m
 
-	return &ImageProcessing.ImageProcessor{}, &TextProcessing.MessageProcessor{}
+	return &ImageProcessor.ImageProcessor{}, &TextProcessor.TextProcessor{}
 }
 
-func (co *ChannelOperations) SendMessageToChannel(messageText string, userIDReply string) error {
+func (co *Operations) SendMessageToChannel(messageText string, userIDReply string) error {
 	var finalMessage string
 
 	if len(userIDReply) > 0 {
@@ -42,7 +41,7 @@ func (co *ChannelOperations) SendMessageToChannel(messageText string, userIDRepl
 	return nil
 }
 
-func (co *ChannelOperations) DeleteMessageFromChannel(channelId string, messageId string) error {
+func (co *Operations) DeleteMessageFromChannel(channelId string, messageId string) error {
 	err := session.ChannelMessageDelete(channelId, messageId)
 
 	if err != nil {
@@ -53,7 +52,7 @@ func (co *ChannelOperations) DeleteMessageFromChannel(channelId string, messageI
 	return nil
 }
 
-func (co *ChannelOperations) HandleChannelMessages(s *discordgo.Session, m *discordgo.MessageCreate) {
+func (co *Operations) HandleChannelMessages(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if m.Author.ID == s.State.User.ID || (len(m.Content) <= 0 && len(m.Attachments) <= 0) {
 		return
 	}
@@ -100,7 +99,7 @@ func (co *ChannelOperations) HandleChannelMessages(s *discordgo.Session, m *disc
 	}
 }
 
-func (co *ChannelOperations) GetBase64FromImageUrl(url string) (string, error) {
+func (co *Operations) GetBase64FromImageUrl(url string) (string, error) {
 	resp, err := http.Get(url)
 
 	if err != nil {

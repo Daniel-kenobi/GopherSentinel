@@ -1,6 +1,9 @@
-package ImageProcessing
+package ImageProcessor
 
 import (
+	"GopherSentinel/BotProcessors/Messages/ImageProcessor/Models/Requests"
+	"GopherSentinel/BotProcessors/Messages/ImageProcessor/Models/Responses"
+	"GopherSentinel/BotProcessors/Messages/ImageProcessor/URL"
 	"GopherSentinel/Credentials"
 	"bytes"
 	"encoding/json"
@@ -17,13 +20,13 @@ type ImageProcessor struct {
 }
 
 func (g *ImageProcessor) IsImageAppropriated(base64DecodedImage string) (bool, error) {
-	safeSearchRequestObj := GCloudVisionRequestModel{
-		Requests: []GCloudRequest{
+	safeSearchRequestObj := Requests.GCloudVisionRequestModel{
+		Requests: []Requests.GCloudRequest{
 			{
-				Image: Image{
+				Image: Requests.Image{
 					Content: base64DecodedImage,
 				},
-				Features: []Feature{
+				Features: []Requests.Feature{
 					{
 						Type: "SAFE_SEARCH_DETECTION",
 					},
@@ -40,7 +43,7 @@ func (g *ImageProcessor) IsImageAppropriated(base64DecodedImage string) (bool, e
 	}
 
 	reader := bytes.NewReader(byteRequest)
-	req, err := http.NewRequest("POST", GoogleVisionUrl(), reader)
+	req, err := http.NewRequest("POST", URL.GoogleVisionUrl(), reader)
 
 	addHTTPHeaders(req.Header)
 
@@ -75,7 +78,7 @@ func (g *ImageProcessor) IsImageAppropriated(base64DecodedImage string) (bool, e
 	defer resp.Body.Close()
 	body, err := io.ReadAll(resp.Body)
 
-	var responseBody GoogleVisionResponse
+	var responseBody Responses.GoogleVisionResponse
 	err = json.Unmarshal(body, &responseBody)
 
 	if err != nil {
@@ -134,7 +137,7 @@ func notAceptedProbabilitys() []string {
 	}
 }
 
-func checkImageProbability(gVisionResponse GoogleVisionResponse) bool {
+func checkImageProbability(gVisionResponse Responses.GoogleVisionResponse) bool {
 	probabilityItens := notAceptedProbabilitys()
 	responseList := gVisionResponse.Responses
 

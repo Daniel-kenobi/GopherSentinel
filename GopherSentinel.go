@@ -12,7 +12,7 @@ import (
 )
 
 func getChannelOperations() Channel.IChannelOperations {
-	return &Channel.ChannelOperations{}
+	return &Channel.Operations{}
 }
 
 func main() {

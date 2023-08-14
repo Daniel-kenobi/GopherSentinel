@@ -1,21 +1,4 @@
-package ImageProcessing
-
-type GCloudVisionRequestModel struct {
-	Requests []GCloudRequest `json:"requests"`
-}
-
-type GCloudRequest struct {
-	Image    Image     `json:"image"`
-	Features []Feature `json:"features"`
-}
-
-type Image struct {
-	Content string `json:"content"`
-}
-
-type Feature struct {
-	Type string `json:"type"`
-}
+package Responses
 
 type GoogleVisionResponse struct {
 	Responses []GoogleSafeSearchAnnotations `json:"responses"`

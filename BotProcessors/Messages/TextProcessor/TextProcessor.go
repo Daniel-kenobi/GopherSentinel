@@ -1,14 +1,14 @@
-package TextProcessing
+package TextProcessor
 
 import (
 	"GopherSentinel/Utils"
 	"strings"
 )
 
-type MessageProcessor struct {
+type TextProcessor struct {
 }
 
-func (mp *MessageProcessor) IsMessageAppropriated(message string) bool {
+func (tp *TextProcessor) IsMessageAppropriated(message string) bool {
 	badWords := Utils.PortugueseBadWordList()
 	splitedInputStrings := strings.Split(message, " ")
 

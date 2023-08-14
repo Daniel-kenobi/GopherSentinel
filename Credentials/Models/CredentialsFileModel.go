@@ -1,4 +1,4 @@
-package Credentials
+package Models
 
 type CredentialFileModel struct {
 	Bot_Token           string `json:"BOT_TOKEN"`
