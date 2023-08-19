@@ -75,7 +75,12 @@ func (g *ImageProcessor) IsImageAppropriated(base64DecodedImage string) (bool, e
 		}
 	}
 
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+	}(resp.Body)
 	body, err := io.ReadAll(resp.Body)
 
 	var responseBody Responses.GoogleVisionResponse
@@ -103,7 +108,11 @@ func (g *ImageProcessor) GetPlatformToken() string {
 		panic(err.Error())
 	}
 
-	output := strings.TrimSuffix(stdout.String(), "\r\n")
+	// Pode parecer estranho, mas se o código estiver em um ambiente
+	// Google Cloud, ele adiciona quebras de linha no console.
+	output := stdout.String()
+	output = strings.ReplaceAll(output, "\n", "")
+	output = strings.ReplaceAll(output, "\r", "")
 
 	if err != nil {
 		log.Println(err.Error())

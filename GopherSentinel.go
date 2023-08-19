@@ -11,10 +11,6 @@ import (
 	"syscall"
 )
 
-func getChannelOperations() Channel.IChannelOperations {
-	return &Channel.Operations{}
-}
-
 func main() {
 	instanceRunTimes := 0
 
@@ -37,7 +33,7 @@ func main() {
 			continue
 		}
 
-		channelOps := getChannelOperations()
+		channelOps := &Channel.Operations{}
 
 		botExecution.AddHandler(channelOps.HandleChannelMessages)
 		botExecution.Identify.Intents = discordgo.IntentsGuildMessages
@@ -59,6 +55,7 @@ func main() {
 		err = botExecution.Close()
 
 		if err != nil {
+			log.Println(err.Error())
 			return
 		}
 	}
